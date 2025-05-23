@@ -1,4 +1,5 @@
 import FormTextField from "../components/FormTextField";
+import AlertDialog from "../components/Dialog";
 
 function Contact() {
     return (
@@ -17,6 +18,13 @@ function Contact() {
                 label="名前"
                 defaultValue="太郎"
                 variant="filled"
+            />
+            <AlertDialog
+                triggerLabel="送信"
+                dialogTitle="送信しますか？"
+                dialogDescription="契約内容に同意の上、送信してください。"
+                cancelLabel="キャンセル"
+                confirmLabel="送信"
             />
         </div>
     );

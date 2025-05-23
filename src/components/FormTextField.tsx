@@ -21,7 +21,29 @@ const FormTextField: React.FC<FormTextFieldProps> = (props) => {
             autoComplete="off"
         >
             <div>
-                <TextField {...props} />
+                <TextField
+                    {...props}
+                    sx={{
+                        '& .MuiInputBase-root.Mui-error': {
+                            color: 'black',
+                        },
+                        '& .MuiFormHelperText-root.Mui-error': {
+                            color: 'gray',
+                        },
+                        '& .MuiInputLabel-root.Mui-error': {
+                            color: 'gray',
+                        },
+                        '& .MuiOutlinedInput-root.Mui-error .MuiOutlinedInput-notchedOutline': {
+                            borderColor: 'black',
+                        },
+                        '& .MuiFilledInput-root.Mui-error:before': {
+                            borderBottomColor: 'black',
+                        },
+                        '& .MuiInput-root.Mui-error:before': {
+                            borderBottomColor: 'black',
+                        },
+                    }}
+                />
             </div>
         </Box>
     );
