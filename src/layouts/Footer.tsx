@@ -16,7 +16,7 @@ function Footer() {
         >
             <Container maxWidth="md">
                 <Typography variant="body2" color="textSecondary">
-                    &copy; {new Date().getFullYear()} MyApp. All rights reserved.
+                    &copy; {new Date().getFullYear()} 会社名 All rights reserved.
                 </Typography>
             </Container>
         </Box>
