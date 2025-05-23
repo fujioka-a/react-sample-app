@@ -6,7 +6,8 @@ import About from './pages/About';
 
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Box } from '@mui/material';
-import backgroundCity from './assets/dubai_skyline_1600x900.png';
+
+const backgroundCity = '/dubai_skyline_1600x900.png';
 
 function App() {
   return (
