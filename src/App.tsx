@@ -6,6 +6,7 @@ import About from './pages/About';
 
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Box } from '@mui/material';
+import backgroundCity from './assets/dubai_skyline_1600x900.png';
 
 function App() {
   return (
@@ -13,8 +14,10 @@ function App() {
       {/* 背景画像を敷く層 */}
       <Box
         sx={{
+          // backgroundImage: 'url(https://picsum.photos/1600/900)',
+          backgroundImage: `url(${backgroundCity})`,
           minHeight: '100vh',
-          backgroundImage: 'url(https://picsum.photos/1600/900)',
+          minWidth: '100vw',
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           display: 'flex',
@@ -34,7 +37,16 @@ function App() {
         >
           <Navbar />
 
-          <Box component="main" sx={{ flex: 1, p: 2, pt: '64px' }}>
+          {/* ★ メインコンテンツ領域（レスポンシブ対応のパディング設定） */}
+          <Box
+            component="main"
+            sx={{
+              flex: 1,
+              // 画面サイズに応じてパディングを変更（xs:1, sm:2, md:3）
+              p: { xs: 1, sm: 2, md: 3 },
+              pt: '64px', // ナビバー分の上部余白
+            }}
+          >
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/contact" element={<Contact />} />
