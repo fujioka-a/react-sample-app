@@ -5,6 +5,8 @@ import * as cloudfront from 'aws-cdk-lib/aws-cloudfront';
 import * as iam from 'aws-cdk-lib/aws-iam';
 import * as cloudfront_origins from 'aws-cdk-lib/aws-cloudfront-origins';
 
+const BUCKET_NAME = process.env.BUCKET_NAME || '';
+
 export class CdkStack extends cdk.Stack {
   public readonly siteBucket: s3.Bucket;
   public readonly distribution: cloudfront.Distribution;
@@ -18,6 +20,7 @@ export class CdkStack extends cdk.Stack {
       publicReadAccess: false,
       removalPolicy: cdk.RemovalPolicy.RETAIN,
       autoDeleteObjects: false,
+      bucketName: BUCKET_NAME,
     });
 
     // L2ディストリビューション作成（CfnDistributionからの移行)
