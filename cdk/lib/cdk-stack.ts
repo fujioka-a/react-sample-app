@@ -5,7 +5,6 @@ import * as cloudfront from 'aws-cdk-lib/aws-cloudfront';
 import * as iam from 'aws-cdk-lib/aws-iam';
 import * as cloudfront_origins from 'aws-cdk-lib/aws-cloudfront-origins';
 
-const BUCKET_NAME = process.env.BUCKET_NAME || '';
 
 export class CdkStack extends cdk.Stack {
   public readonly siteBucket: s3.Bucket;
@@ -19,8 +18,7 @@ export class CdkStack extends cdk.Stack {
       websiteErrorDocument: 'index.html',
       publicReadAccess: false,
       removalPolicy: cdk.RemovalPolicy.RETAIN,
-      autoDeleteObjects: false,
-      bucketName: BUCKET_NAME,
+      autoDeleteObjects: false
     });
 
     // L2ディストリビューション作成（CfnDistributionからの移行)
@@ -34,6 +32,20 @@ export class CdkStack extends cdk.Stack {
         viewerProtocolPolicy: cloudfront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
         allowedMethods: cloudfront.AllowedMethods.ALLOW_GET_HEAD,
       },
+      errorResponses: [
+        {
+          httpStatus: 403,
+          responseHttpStatus: 200,
+          responsePagePath: '/index.html',
+          ttl: cdk.Duration.seconds(0),
+        },
+        {
+          httpStatus: 404,
+          responseHttpStatus: 200,
+          responsePagePath: '/index.html',
+          ttl: cdk.Duration.seconds(0),
+        },
+      ],
     });
 
     // S3のバケットポリシー追加
