@@ -4,11 +4,19 @@ import Home from './pages/Home';
 import Contact from './pages/Contact';
 import About from './pages/About';
 
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { AuthProvider, useAuth } from './auth/AuthContext';
+
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { Box } from '@mui/material';
+import { JSX } from 'react';
 
 const backgroundCity = '/dubai_skyline_1600x900.png';
 
+const ProtectedRoute: React.FC<{ children: JSX.Element }> = ({ children }) => {
+  const { user, loading } = useAuth();
+  if (loading) return <div>Loading...</div>;
+  return user ? children : <Navigate to="/login" />;
+};
 function App() {
   return (
     <BrowserRouter>
