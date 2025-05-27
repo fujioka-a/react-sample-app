@@ -13,15 +13,14 @@ export class CdkStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
 
+    // S3バケット作成
     this.siteBucket = new s3.Bucket(this, 'SiteBucket', {
-      websiteIndexDocument: 'index.html',
-      websiteErrorDocument: 'index.html',
-      publicReadAccess: false,
+      blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
       removalPolicy: cdk.RemovalPolicy.RETAIN,
-      autoDeleteObjects: false
+      autoDeleteObjects: false,
     });
 
-    // L2ディストリビューション作成（CfnDistributionからの移行)
+    // L2ディストリビューション作成
     this.distribution = new cloudfront.Distribution(this, 'SiteDistribution', {
       defaultRootObject: 'index.html',
       defaultBehavior: {
@@ -48,25 +47,22 @@ export class CdkStack extends cdk.Stack {
       ],
     });
 
-    // S3のバケットポリシー追加
+    // バケットポリシーに CloudFront からのアクセスのみを許可
     this.siteBucket.addToResourcePolicy(new iam.PolicyStatement({
       actions: ['s3:GetObject'],
       resources: [this.siteBucket.arnForObjects('*')],
-      principals: [
-        new iam.ServicePrincipal('cloudfront.amazonaws.com'),
-      ],
+      principals: [new iam.ServicePrincipal('cloudfront.amazonaws.com')],
       conditions: {
         StringEquals: {
-          'AWS:SourceArn': `arn:aws:cloudfront::${this.account}:distribution/${this.distribution.distributionId}`,
+          'AWS:SourceArn': this.distribution.distributionArn,
         },
       },
     }));
 
-    // 出力（CLIで値を使えるように）
+    // Outputs
     new cdk.CfnOutput(this, 'BucketName', {
       value: this.siteBucket.bucketName,
     });
-
     new cdk.CfnOutput(this, 'CloudFrontDomain', {
       value: this.distribution.domainName,
     });
