@@ -8,18 +8,15 @@ import MyPage from './pages/MyPage';
 import TaskControl from './pages/TaskControl';
 
 import { AuthProvider, useAuth } from './auth/AuthContext';
-
+import ProtectedRoute from './routes/ProtectedRoute';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { Box } from '@mui/material';
-import { JSX } from 'react';
 
 const backgroundCity = '/dubai_skyline_1600x900.png';
 
-const ProtectedRoute: React.FC<{ children: JSX.Element }> = ({ children }) => {
-  const { user, loading } = useAuth();
-  if (loading) return <div>Loading...</div>;
-  return user ? children : <Navigate to="/login" />;
-};
+// App.tsx：ルーティングの構成に専念をする（個別要素はroutesに定義）
+// 極力シンプルかつ最小限の構成としてください
+
 function App() {
   return (
     <AuthProvider>
