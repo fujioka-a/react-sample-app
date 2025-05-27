@@ -1,25 +1,23 @@
 // src/auth/AuthContext.tsx
-import React, { createContext, useState, useEffect, useContext } from 'react';
-import { login as apiLogin, logout as apiLogout, getSession } from './authApi';
+import React, {
+    createContext,
+    useState,
+    useEffect,
+    useContext
+} from 'react';
+import { login as apiLogin, logout as apiLogout, getSession } from './auth';
 
-interface User { username: string; loginAt: string; }
-interface AuthContextType {
-    user: User | null;
-    loading: boolean;
-    login: (username: string, password: string) => Promise<void>;
-    logout: () => Promise<void>;
-}
+import { User, AuthContextType, AuthProviderProps } from './interface';
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-export const AuthProvider: React.FC = ({ children }) => {
+export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     const [user, setUser] = useState<User | null>(null);
     const [loading, setLoading] = useState(true);
 
-    // 初回マウント時にセッション確認
     useEffect(() => {
         getSession()
-            .then(u => setUser(u))
+            .then((u) => setUser(u))
             .catch(() => setUser(null))
             .finally(() => setLoading(false));
     }, []);
@@ -46,9 +44,8 @@ export const AuthProvider: React.FC = ({ children }) => {
     );
 };
 
-// フック
 export const useAuth = () => {
     const ctx = useContext(AuthContext);
-    if (!ctx) throw new Error('AuthProvider 未設定です');
+    if (!ctx) throw new Error('AuthProvider が設定されていません');
     return ctx;
 };

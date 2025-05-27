@@ -1,35 +1,51 @@
 // src/auth/authApi.ts
-// AWS Cognito 利用時は aws-amplify や amazon-cognito-identity-js を使います
-import { CognitoUser, AuthenticationDetails } from 'amazon-cognito-identity-js';
-import { UserPool, UserPoolId } from './cognitoConfig';
+import { CognitoUser, AuthenticationDetails, CognitoUserSession } from 'amazon-cognito-identity-js';
+import { UserPool } from './cognitoConfig'
 
-export async function login(username: string, password: string) {
+import { User } from './interface';
+
+/**
+ * ログイン処理
+ */
+export async function login(username: string, password: string): Promise<User> {
     return new Promise<User>((resolve, reject) => {
-        const user = new CognitoUser({ Username: username, Pool: UserPool });
-        user.authenticateUser(
+        const cognitoUser = new CognitoUser({ Username: username, Pool: UserPool });
+        cognitoUser.authenticateUser(
             new AuthenticationDetails({ Username: username, Password: password }),
             {
-                onSuccess: session => {
+                onSuccess: (session: CognitoUserSession) => {
                     resolve({ username, loginAt: new Date().toISOString() });
                 },
-                onFailure: err => reject(err),
+                onFailure: (err: any) => {
+                    reject(new Error(err.message || '認証に失敗しました'));
+                },
             }
         );
     });
 }
 
-export async function logout() {
+/**
+ * ログアウト処理
+ */
+export async function logout(): Promise<void> {
     const user = UserPool.getCurrentUser();
     user?.signOut();
 }
 
-export async function getSession() {
+/**
+ * セッション取得
+ */
+export async function getSession(): Promise<User> {
     return new Promise<User>((resolve, reject) => {
-        const user = UserPool.getCurrentUser();
-        if (!user) return reject('未認証');
-        user.getSession((err, session) => {
-            if (err || !session.isValid()) return reject(err);
-            resolve({ username: user.getUsername(), loginAt: new Date().toISOString() });
+        const cognitoUser = UserPool.getCurrentUser();
+        if (!cognitoUser) {
+            return reject(new Error('未認証'));
+        }
+        cognitoUser.getSession((err: any, session: CognitoUserSession | null) => {
+            if (err || !session || !session.isValid()) {
+                return reject(new Error('セッションが無効です'));
+            }
+            resolve({ username: cognitoUser.getUsername(), loginAt: new Date().toISOString() });
         });
     });
 }
