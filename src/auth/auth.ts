@@ -2,7 +2,7 @@
 import { CognitoUser, AuthenticationDetails, CognitoUserSession } from 'amazon-cognito-identity-js';
 import { UserPool } from './cognitoConfig'
 
-import { User } from './interface';
+import { User } from '../types/user';
 
 /**
  * ログイン処理
@@ -39,11 +39,11 @@ export async function getSession(): Promise<User> {
     return new Promise<User>((resolve, reject) => {
         const cognitoUser = UserPool.getCurrentUser();
         if (!cognitoUser) {
-            return reject(new Error('未認証'));
+            return reject(new Error('未認証です。ログインしてください。'));
         }
         cognitoUser.getSession((err: any, session: CognitoUserSession | null) => {
             if (err || !session || !session.isValid()) {
-                return reject(new Error('セッションが無効です'));
+                return reject(new Error('セッションが無効です。ログインしてください。'));
             }
             resolve({ username: cognitoUser.getUsername(), loginAt: new Date().toISOString() });
         });

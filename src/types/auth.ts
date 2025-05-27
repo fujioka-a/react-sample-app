@@ -1,9 +1,5 @@
 import { ReactNode } from 'react';
-
-export interface User {
-    username: string;
-    loginAt: string;
-}
+import { User } from './user';
 
 export interface AuthContextType {
     user: User | null;
