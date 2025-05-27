@@ -14,7 +14,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import ListItemButton from '@mui/material/ListItemButton';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useAuth } from '../auth/AuthContext'; // AuthContextからログイン状態を取得
+import { useAuth } from '@/auth/AuthContext'; // AuthContextからログイン状態を取得
 
 function Navbar() {
     const [mobileOpen, setMobileOpen] = useState(false);

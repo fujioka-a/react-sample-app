@@ -1,6 +1,6 @@
 // src/pages/Login.tsx
 import React, { useState } from 'react';
-import { useAuth } from '../auth/AuthContext';
+import { useAuth } from '@/auth/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import {
     Box, Button, CircularProgress, Dialog, DialogTitle, DialogContent, TextField, Typography

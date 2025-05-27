@@ -2,7 +2,7 @@
 import { CognitoUser, AuthenticationDetails, CognitoUserSession } from 'amazon-cognito-identity-js';
 import { UserPool } from './cognitoConfig'
 
-import { User } from '../types/user';
+import { User } from '@/types/user';
 
 /**
  * ログイン処理
