@@ -23,6 +23,7 @@ function Navbar() {
         { label: 'ホーム', path: '/' },
         { label: 'お問い合わせ', path: '/contact' },
         { label: '会社概要', path: '/about' },
+        { label: 'ログイン', path: '/login' },
     ];
     const handleDrawerToggle = () => {
         setMobileOpen((prev) => !prev);
