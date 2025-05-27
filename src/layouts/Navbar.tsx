@@ -13,18 +13,28 @@ import {
 import MenuIcon from '@mui/icons-material/Menu';
 import ListItemButton from '@mui/material/ListItemButton';
 import { useState } from 'react';
-
 import { Link } from 'react-router-dom';
+import { useAuth } from '../auth/AuthContext'; // AuthContextからログイン状態を取得
 
 function Navbar() {
     const [mobileOpen, setMobileOpen] = useState(false);
+    const { user } = useAuth();
 
+    // ベースのnavItems
     const navItems = [
         { label: 'ホーム', path: '/' },
         { label: 'お問い合わせ', path: '/contact' },
         { label: '会社概要', path: '/about' },
-        { label: 'ログイン', path: '/login' },
     ];
+
+    // ログイン状態であれば追加、そうでなければログインボタンを追加
+    if (user) {
+        navItems.push({ label: 'マイページ', path: '/mypage' });
+        navItems.push({ label: 'タスク管理', path: '/tasks' });
+    } else {
+        navItems.push({ label: 'ログイン', path: '/login' });
+    }
+
     const handleDrawerToggle = () => {
         setMobileOpen((prev) => !prev);
     };
@@ -52,7 +62,6 @@ function Navbar() {
                     {/* PC表示用メニュー（中画面以上） */}
                     <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
                         {navItems.map((item) => (
-                            // <Button key={item} sx={{ color: '#fff' }}>
                             <Button
                                 component={Link}
                                 to={item.path}
