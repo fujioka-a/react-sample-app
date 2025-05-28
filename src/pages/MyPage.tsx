@@ -1,6 +1,6 @@
 // src/pages/MyPage.tsx
 import React from 'react';
-import { useAuth } from '@/auth/AuthContext';
+import { useAuth } from '../auth/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import {
     Box, Button, Typography

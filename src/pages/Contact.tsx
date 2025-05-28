@@ -1,5 +1,5 @@
-import FormTextField from "@/components/FormTextField";
-import AlertDialog from "@/components/Dialog";
+import FormTextField from "../components/FormTextField";
+import AlertDialog from "../components/Dialog";
 
 function Contact() {
     return (

@@ -1,5 +1,5 @@
 import React from 'react';
-import { useAuth } from '@/auth/AuthContext';
+import { useAuth } from '../auth/AuthContext';
 import { Typography, Box, List, ListItem, ListItemText } from '@mui/material';
 
 const dummyTasks = [

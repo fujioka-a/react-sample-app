@@ -7,7 +7,8 @@ import React, {
 } from 'react';
 import { login as apiLogin, logout as apiLogout, getSession } from './auth';
 
-import { User, AuthContextType, AuthProviderProps } from './interface';
+import { User } from '../types/user';
+import { AuthContextType, AuthProviderProps } from '../types/auth';
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
