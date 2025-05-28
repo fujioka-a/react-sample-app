@@ -8,6 +8,6 @@ npm run build
 
 aws s3 sync build/ s3://$BUCKET_NAME --delete
 
-# aws cloudfront create-invalidation \
-#   --distribution-id <出力されたDistributionId> \
-#   --paths "/*"
+aws cloudfront create-invalidation \
+  --distribution-id $DISTRIBUTION_ID \
+  --paths "/*"
