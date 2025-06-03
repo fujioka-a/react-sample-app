@@ -6,7 +6,7 @@ import * as iam from 'aws-cdk-lib/aws-iam';
 import * as cloudfront_origins from 'aws-cdk-lib/aws-cloudfront-origins';
 
 
-export class CdkStack extends cdk.Stack {
+export class FrontendStack extends cdk.Stack {
   public readonly siteBucket: s3.Bucket;
   public readonly distribution: cloudfront.Distribution;
 
